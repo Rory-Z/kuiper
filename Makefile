@@ -111,7 +111,7 @@ cross_build: cross_prepare
 	@tar -xvf cross_build.tar --wildcards linux_386/go/kuiper/_packages/ \
 		&& mv linux_386/go/kuiper/_packages/kuiper-$(VERSION)-$(OS)-x86_64.tar.gz $(PACKAGES_PATH)/kuiper-$(VERSION)-linux-386.tar.gz \
 		&& mv linux_386/go/kuiper/_packages/kuiper-$(VERSION)-$(OS)-x86_64.zip $(PACKAGES_PATH)/kuiper-$(VERSION)-linux-386.zip \
-		&& mv linux_386/go/kuiper/_packages/*.deb $(PACKAGES_PATH)
+		&& mv linux_386/go/kuiper/_packages/kuiper-$(VERSION)-$(OS)-x86_64.deb $(PACKAGES_PATH)/kuiper-$(VERSION)-linux-386.deb
 
 	@rm -f cross_build.tar
 	@echo "Cross build success"
@@ -119,7 +119,7 @@ cross_build: cross_prepare
 .PHONY: cross_build_for_rpm
 cross_build_for_rpm: cross_prepare
 	@docker buildx build --no-cache \
-	--platform=linux/amd64,linux/arm64,linux/386,linux/ppc64le \
+	--platform=linux/amd64,linux/arm64,linux/arm/v7,linux/386,linux/ppc64le \
 	-t cross_build \
 	--output type=tar,dest=cross_build_for_rpm.tar \
 	-f .ci/Dockerfile-centos .
@@ -129,6 +129,8 @@ cross_build_for_rpm: cross_prepare
 		&& mv linux_amd64/go/kuiper/_packages/*.rpm $(PACKAGES_PATH)
 	@tar -xvf cross_build_for_rpm.tar --wildcards linux_arm64/go/kuiper/_packages/ \
 		&& mv linux_arm64/go/kuiper/_packages/*.rpm $(PACKAGES_PATH)
+	@tar -xvf cross_build_for_rpm.tar --wildcards linux_arm_v7/go/kuiper/_packages/ \
+		&& mv linux_arm_v7/go/kuiper/_packages/*.rpm $(PACKAGES_PATH)
 	@tar -xvf cross_build_for_rpm.tar --wildcards linux_ppc64le/go/kuiper/_packages/ \
 		&& mv linux_ppc64le/go/kuiper/_packages/*.rpm $(PACKAGES_PATH)
 	@tar -xvf cross_build_for_rpm.tar --wildcards linux_386/go/kuiper/_packages/ \
