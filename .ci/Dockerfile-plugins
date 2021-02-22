@@ -8,9 +8,8 @@ COPY . /go/kuiper
 
 WORKDIR /go/kuiper
 
-RUN set -e -u -x \
-    && apt-get update \
-    && apt-get install -y pkg-config libczmq-dev jq zip --assume-yes apt-utils
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends apt-utils pkg-config libczmq-dev jq zip
 
 RUN set -e -u -x \
     && mkdir -p _plugins/$PLUGIN_TYPE/$PLUGIN_NAME \
